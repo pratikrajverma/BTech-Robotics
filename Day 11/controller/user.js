@@ -1,6 +1,8 @@
 import User from "../model/userModel.js"
 
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
 
 const signup = async (req,res)=>{
     try {
@@ -72,9 +74,22 @@ const login = async (req,res)=>{
 
     if(await bcrypt.compare(password, user.password)){
 
+
+        let token  = jwt.sign(
+            {
+                userId : user._id,
+                role: user.role
+            },
+            'roboticsAuth',
+            {
+                expiresIn : '2hr'
+            }
+        )
+
         res.status(200).json({
             message:'user login successfully....',
-            success:true
+            success:true,
+            token
         })
 
 
