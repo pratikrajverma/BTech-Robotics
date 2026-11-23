@@ -1,4 +1,7 @@
 import User from "../model/userModel.js"
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -80,7 +83,7 @@ const login = async (req,res)=>{
                 userId : user._id,
                 role: user.role
             },
-            'roboticsAuth',
+            process.env.JWTKEY,
             {
                 expiresIn : '2hr'
             }
